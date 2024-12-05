@@ -11,21 +11,3 @@ public class Product extends Base {
     private double price;
     private Category category;
 }
-
-/*
-1 "jeans"
-3 "toy car"
-3 "jeans"
-4 "pen"
-
-
-
-
-10^9
-
-String, Enum, Entity
-
-Category:
-category name, category id, description
-
- */

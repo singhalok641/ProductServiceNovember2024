@@ -10,9 +10,6 @@ public class ProductServiceNovember2024Application {
 
     public static void main(String[] args) {
         SpringApplication.run(ProductServiceNovember2024Application.class, args);
-        Product p = new Product();
-        p.getTitle();
-        p.setCategory(new Category());
     }
 
 }
