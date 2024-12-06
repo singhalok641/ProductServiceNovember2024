@@ -8,4 +8,5 @@ public interface ProductService {
     Product getSingleProduct(Long productId);
 
     List<Product> getAllProducts();
+    List<Product> getLimitedProducts(Integer num);
 }

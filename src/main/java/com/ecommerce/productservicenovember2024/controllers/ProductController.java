@@ -28,8 +28,14 @@ public class ProductController {
     public List<Product> getAllProducts(){
         return productService.getAllProducts();
     }
+    @GetMapping("/limit/{num}")
+    public List<Product> getLimitedProducts(@PathVariable("num") Integer num){
+        return  productService.getLimitedProducts(num);
+    }
 
 }
+
+
 
 /*
 Product Service
