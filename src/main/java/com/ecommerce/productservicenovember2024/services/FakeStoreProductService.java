@@ -63,6 +63,18 @@ public class FakeStoreProductService implements ProductService{
         return products;
     }
 
+    @Override
+    public List<Product> getLimitedProducts(Integer num) {
+        FakeStoreProductDto[] fakeStoreProductDtos = restTemplate.getForObject("https://fakestoreapi.com/products?limit="+num,FakeStoreProductDto[].class);
+        List<Product> products = new ArrayList<>();
+        for(FakeStoreProductDto fakeStoreProductDto:fakeStoreProductDtos){
+            products.add(convertFakeStoreProductDtoToProduct(fakeStoreProductDto));
+        }
+
+        return products;
+    }
+
+
     private Product convertFakeStoreProductDtoToProduct(FakeStoreProductDto fakeStoreProductDto){
         Product product = new Product();
         product.setId(fakeStoreProductDto.getId());
@@ -75,6 +87,7 @@ public class FakeStoreProductService implements ProductService{
         return product;
     }
 }
+
 
 /*
 url: https://fakestoreapi.com/products/1

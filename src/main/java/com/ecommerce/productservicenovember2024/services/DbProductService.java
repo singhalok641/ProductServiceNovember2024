@@ -16,4 +16,9 @@ public class DbProductService implements ProductService{
     public List<Product> getAllProducts() {
         return null;
     }
+
+    @Override
+    public List<Product> getLimitedProducts(Integer num) {
+        return null;
+    }
 }
