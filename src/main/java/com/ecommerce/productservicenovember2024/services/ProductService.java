@@ -9,6 +9,8 @@ public interface ProductService {
     Product getSingleProduct(Long productId) throws ProductNotFoundException;
 
     List<Product> getAllProducts();
+  
+    List<Product> getLimitedProducts(Integer num);
 
     Product updateProduct(Long id, Product product);
 

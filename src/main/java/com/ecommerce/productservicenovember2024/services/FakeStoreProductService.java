@@ -51,6 +51,18 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
+    public List<Product> getLimitedProducts(Integer num) {
+        FakeStoreProductDto[] fakeStoreProductDtos = restTemplate.getForObject("https://fakestoreapi.com/products?limit="+num,FakeStoreProductDto[].class);
+        List<Product> products = new ArrayList<>();
+        for(FakeStoreProductDto fakeStoreProductDto:fakeStoreProductDtos){
+            products.add(convertFakeStoreProductDtoToProduct(fakeStoreProductDto));
+        }
+
+        return products;
+    }
+
+ 
+    @Override
     public Product updateProduct(Long id, Product product) {
         //PATCH
         RequestCallback requestCallback = restTemplate.httpEntityCallback(product, FakeStoreProductDto.class);
@@ -61,7 +73,7 @@ public class FakeStoreProductService implements ProductService{
                 requestCallback,
                 responseExtractor
         );
-
+      
 //        FakeStoreProductDto fakeStoreProductDto = restTemplate.patchForObject("https://fakestoreapi.com/products" + id, product, FakeStoreProductDto.class);
 
         return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
@@ -97,6 +109,7 @@ public class FakeStoreProductService implements ProductService{
         return product;
     }
 }
+
 
 /*
 url: https://fakestoreapi.com/products/1

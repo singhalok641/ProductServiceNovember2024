@@ -18,6 +18,11 @@ public class DbProductService implements ProductService{
     }
 
     @Override
+    public List<Product> getLimitedProducts(Integer num) {
+        return null;
+    }
+
+    @Override
     public Product updateProduct(Long id, Product product) {
         return null;
     }
