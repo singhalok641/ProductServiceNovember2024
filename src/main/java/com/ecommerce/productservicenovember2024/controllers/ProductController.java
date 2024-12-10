@@ -1,11 +1,11 @@
 package com.ecommerce.productservicenovember2024.controllers;
 
+import com.ecommerce.productservicenovember2024.exceptions.ProductNotFoundException;
 import com.ecommerce.productservicenovember2024.models.Product;
 import com.ecommerce.productservicenovember2024.services.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,29 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") Long id) {
-        return productService.getSingleProduct(id);
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
+
+//        ResponseEntity<Product> response = null;
+//
+//        try {
+//            Product product = productService.getSingleProduct(id);
+//            response = new ResponseEntity<>(
+//                    product,
+//                    HttpStatus.OK
+//            );
+//        }
+//        catch (RuntimeException e) {
+//            response = new ResponseEntity<>(
+//                    HttpStatus.BAD_GATEWAY
+//            );
+//        }
+
+        ResponseEntity<Product> responseEntity = new ResponseEntity<>(
+                productService.getSingleProduct(id),
+                HttpStatus.OK
+        );
+
+        return responseEntity;
     }
 
     @GetMapping()
@@ -31,6 +52,18 @@ public class ProductController {
     @GetMapping("/limit/{num}")
     public List<Product> getLimitedProducts(@PathVariable("num") Integer num){
         return  productService.getLimitedProducts(num);
+    }
+
+    @PutMapping("/{id}")
+    public Product replaceProduct(@PathVariable("id") Long id, @RequestBody Product product) {
+        return productService.replaceProduct(id, product);
+    }
+
+
+    // Partial update
+    @PatchMapping("/{id}")
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
+        return productService.updateProduct(id, product);
     }
 
 }
