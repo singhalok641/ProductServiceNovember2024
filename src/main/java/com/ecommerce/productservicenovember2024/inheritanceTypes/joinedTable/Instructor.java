@@ -1,4 +1,4 @@
-package inheritanceTypes.joinedTable;
+package com.ecommerce.productservicenovember2024.inheritanceTypes.joinedTable;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -7,8 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity(name = "jt_students")
+@Entity(name = "jt_instructors")
 @PrimaryKeyJoinColumn(name = "user_id")
-public class Student extends User{
-    private Double psp;
+public class Instructor extends User{
+    private String module;
 }
