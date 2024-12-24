@@ -1,4 +1,4 @@
-package com.ecommerce.productservicenovember2024.inheritanceTypes.joinedTable;
+package com.ecommerce.productservicenovember2024.experimentation.inheritanceTypes.joinedTable;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;

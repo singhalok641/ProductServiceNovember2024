@@ -1,4 +1,4 @@
-package com.ecommerce.productservicenovember2024.inheritanceTypes.tablePerClass;
+package com.ecommerce.productservicenovember2024.experimentation.inheritanceTypes.tablePerClass;
 
 import jakarta.persistence.Entity;
 import lombok.Getter;

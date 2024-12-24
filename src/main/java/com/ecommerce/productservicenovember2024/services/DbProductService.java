@@ -1,16 +1,30 @@
 package com.ecommerce.productservicenovember2024.services;
 
+import com.ecommerce.productservicenovember2024.exceptions.ProductNotFoundException;
 import com.ecommerce.productservicenovember2024.models.Product;
+import com.ecommerce.productservicenovember2024.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
-@Service
+@Service("dbProductService")
 public class DbProductService implements ProductService{
+    ProductRepository productRepository;
+    public DbProductService(ProductRepository productRepository){
+        this.productRepository = productRepository;
+    }
+
     @Override
-    public Product getSingleProduct(Long productId) {
-        return null;
+    public Product getSingleProduct(Long productId) throws ProductNotFoundException {
+        Optional<Product> optionalProduct = productRepository.findById(productId); // productId = 1;
+
+        if(optionalProduct.isEmpty()){
+            throw new ProductNotFoundException("Product with id: " + productId + "does not exist");
+        }
+
+        return optionalProduct.get();
     }
 
     @Override

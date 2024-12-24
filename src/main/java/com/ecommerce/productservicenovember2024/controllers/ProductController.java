@@ -3,6 +3,7 @@ package com.ecommerce.productservicenovember2024.controllers;
 import com.ecommerce.productservicenovember2024.exceptions.ProductNotFoundException;
 import com.ecommerce.productservicenovember2024.models.Product;
 import com.ecommerce.productservicenovember2024.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +16,8 @@ import java.util.List;
 public class ProductController {
     ProductService productService;
 
-
-    // TODO Fix the ambiguity around product service DI
-    public ProductController(ProductService productService) {
+    // TODO See how you can provide variable name and use configuration file to add the Qualifier
+    public ProductController(@Qualifier("dbProductService") ProductService productService) {
         this.productService = productService;
     }
 
