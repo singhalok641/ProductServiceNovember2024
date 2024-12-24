@@ -32,9 +32,20 @@ public class ProductController {
     }
 
     @GetMapping()
-    public List<Product> getAllProducts(){
-        return productService.getAllProducts();
+    public ResponseEntity<List<Product>> getAllProducts(){
+        ResponseEntity<List<Product>> responseEntity = new ResponseEntity<>(
+                productService.getAllProducts(),
+                HttpStatus.OK
+        );
+
+        return responseEntity;
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable("id") Long id) throws ProductNotFoundException {
+        productService.deleteSingleProduct(id);
+    }
+
     @GetMapping("/limit/{num}")
     public List<Product> getLimitedProducts(@PathVariable("num") Integer num){
         return  productService.getLimitedProducts(num);
@@ -48,7 +59,7 @@ public class ProductController {
 
     // Partial update
     @PatchMapping("/{id}")
-    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) throws ProductNotFoundException {
         return productService.updateProduct(id, product);
     }
 
