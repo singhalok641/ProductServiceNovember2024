@@ -1,7 +1,9 @@
 package com.ecommerce.productservicenovember2024.services;
 
 import com.ecommerce.productservicenovember2024.exceptions.ProductNotFoundException;
+import com.ecommerce.productservicenovember2024.models.Category;
 import com.ecommerce.productservicenovember2024.models.Product;
+import com.ecommerce.productservicenovember2024.repositories.CategoryRepository;
 import com.ecommerce.productservicenovember2024.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +14,11 @@ import java.util.Optional;
 @Service("dbProductService")
 public class DbProductService implements ProductService{
     ProductRepository productRepository;
-    public DbProductService(ProductRepository productRepository){
+    CategoryRepository categoryRepository;
+    public DbProductService(ProductRepository productRepository,
+                            CategoryRepository categoryRepository){
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -30,6 +35,29 @@ public class DbProductService implements ProductService{
     @Override
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    /*
+    {
+        "category": {
+            "name": "phones",
+            "description": "iphone devices"
+        },
+        "title" : "iphone",
+        "price": "100000"
+     }
+     */
+
+    @Override
+    public Product addNewProduct(Product product) {
+        Category category = product.getCategory();
+//        if(category.getId() == null){
+//            // We need to create a new Category object in the DB first
+//            category = categoryRepository.save(category);
+//            product.setCategory(category);
+//        }
+
+        return productRepository.save(product);
     }
 
     @Override
@@ -70,6 +98,9 @@ public class DbProductService implements ProductService{
         return productRepository.save(productInDb);
     }
 
+
+    // PUT
+    // TODO:: Homework to code this service
     @Override
     public Product replaceProduct(Long id, Product product) {
         return null;

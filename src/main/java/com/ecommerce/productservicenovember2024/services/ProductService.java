@@ -10,6 +10,8 @@ public interface ProductService {
 
     List<Product> getAllProducts();
 
+    Product addNewProduct(Product product);
+
     void deleteSingleProduct(Long product_id) throws ProductNotFoundException;
   
     List<Product> getLimitedProducts(Integer num);
