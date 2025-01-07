@@ -1,5 +1,6 @@
 package com.ecommerce.productservicenovember2024.models;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;

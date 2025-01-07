@@ -41,6 +41,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select p.id as id, p.title as title from Product p")
     List<ProductWithIdAndTitle> randomSearchMethodForProduct();
 
+    @Query("select p.id as id, p.title as title from Product p where p.id = :id")
+    ProductWithIdAndTitle randomSearchMethodForProduct(Long id);
+
 
     // Native Queries: SQL
     @Query(nativeQuery = true, value="select p.id as id, p.title as title from product p")

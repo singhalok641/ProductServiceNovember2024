@@ -3,6 +3,7 @@ package com.ecommerce.productservicenovember2024.controllers;
 import com.ecommerce.productservicenovember2024.exceptions.ProductNotFoundException;
 import com.ecommerce.productservicenovember2024.models.Product;
 import com.ecommerce.productservicenovember2024.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +22,20 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
-        ResponseEntity<Product> responseEntity = new ResponseEntity<>(
-                productService.getSingleProduct(id),
-                HttpStatus.OK
-        );
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
+//        ResponseEntity<Product> responseEntity = new ResponseEntity<>(
+//                productService.getSingleProduct(id),
+//                HttpStatus.OK
+//        );
+//
+//        return responseEntity;
+//    }
 
-        return responseEntity;
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable("id") Long id) {
+
+        return new Product();
     }
 
     @GetMapping()
@@ -40,6 +47,8 @@ public class ProductController {
 
         return responseEntity;
     }
+
+
 
     @PostMapping
     public Product addNewProduct(@RequestBody Product product) {
@@ -96,3 +105,33 @@ Agenda:
 How we are going to call third party apis from our product service
 
  */
+
+/*
+PUT -> replace the row/object
+product -> name(NOT NULL), des(NULLABLE), price(NOT NULL), category (NULLABLE)
+
+PUT -> Product -> name, des, price, category
+    -> Product -> name, null, price, category
+    -> Product -> null, des, price, category
+
+
+PATCH -> update whatever is provided (partial update)
+
+
+class A {
+ B b;
+}
+
+A a = new A();
+
+@Annotation that tells that please create an object/bean and store it in AppContext
+class B {
+}
+
+How DI happends?
+1. Constructor Injection
+2. Setter Injection
+3. Field Injection
+ */
+
+
