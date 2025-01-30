@@ -5,8 +5,12 @@ import com.ecommerce.productservicenovember2024.models.Category;
 import com.ecommerce.productservicenovember2024.models.Product;
 import com.ecommerce.productservicenovember2024.repositories.CategoryRepository;
 import com.ecommerce.productservicenovember2024.repositories.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +37,13 @@ public class DbProductService implements ProductService{
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(int pageNumber, int pageSize) {
+
+        Sort sort = Sort.by("price").ascending().and(Sort.by("title").descending());
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+        return productRepository.findAll(pageable);
+
+        // Alternate way: Convert Page<Product> to a List<Product>
     }
 
     /*

@@ -5,6 +5,8 @@ import com.ecommerce.productservicenovember2024.models.Product;
 import com.ecommerce.productservicenovember2024.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,16 +41,15 @@ public class ProductController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Product>> getAllProducts(){
-        ResponseEntity<List<Product>> responseEntity = new ResponseEntity<>(
-                productService.getAllProducts(),
+    public ResponseEntity<Page<Product>> getAllProducts(@RequestParam("pagenumber") int pageNumber,
+                                                        @RequestParam("pageSize") int pageSize){
+        ResponseEntity<Page<Product>> responseEntity = new ResponseEntity<>(
+                productService.getAllProducts(pageNumber, pageSize),
                 HttpStatus.OK
         );
 
         return responseEntity;
     }
-
-
 
     @PostMapping
     public Product addNewProduct(@RequestBody Product product) {
@@ -132,6 +133,14 @@ How DI happends?
 1. Constructor Injection
 2. Setter Injection
 3. Field Injection
+ */
+
+/*
+Pagination
+
+Pageable -> Represents a request for a specific page of data
+PageRequest -> Concrete implementation of Pageable
+
  */
 
 
