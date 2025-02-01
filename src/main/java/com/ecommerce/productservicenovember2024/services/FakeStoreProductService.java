@@ -7,6 +7,7 @@ import com.ecommerce.productservicenovember2024.models.Product;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,30 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService{
     RestTemplate restTemplate;
-    public FakeStoreProductService(RestTemplate restTemplate) {
+    RedisTemplate<String, Object> redisTemplate;
+
+    public FakeStoreProductService(RestTemplate restTemplate, RedisTemplate<String, Object> redisTemplate) {
         this.restTemplate = restTemplate;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
     public Product getSingleProduct(Long productId) throws ProductNotFoundException {
+
+        // Try to fetch the product from my redis db
+        Product product = (Product) redisTemplate.opsForHash().get("PRODUCTS", "PRODUCT_" + productId);
+
+        if(product != null){
+            // Cache HIT
+            return product;
+        }
+
+        // Cache MISS
         FakeStoreProductDto fakeStoreProductDto =
                 restTemplate.getForObject("https://fakestoreapi.com/products/" + productId,
                 FakeStoreProductDto.class);
@@ -36,7 +51,11 @@ public class FakeStoreProductService implements ProductService{
                     + productId + " does not exist");
         }
 
-        return convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+        product = convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+
+        redisTemplate.opsForHash().put("PRODUCTS", "PRODUCT_" + productId, product);
+
+        return product;
     }
 
     @Override
@@ -114,10 +133,13 @@ public class FakeStoreProductService implements ProductService{
         Product product = new Product();
         product.setId(fakeStoreProductDto.getId());
 
-//        product.setCategory(new Category(fakeStoreProductDto.getCategory(),
-//                fakeStoreProductDto.getDescription()));
-//        product.setTitle(fakeStoreProductDto.getTitle());
-//        product.setPrice(fakeStoreProductDto.getPrice());
+        Category category = new Category();
+        category.setName(fakeStoreProductDto.getCategory());
+        category.setDescription(fakeStoreProductDto.getDescription());
+
+        product.setCategory(category);
+        product.setTitle(fakeStoreProductDto.getTitle());
+        product.setPrice(fakeStoreProductDto.getPrice());
 
         return product;
     }
@@ -137,4 +159,10 @@ url: https://fakestoreapi.com/products/1
 }
 
 
+
+REDIS
+
+PRODUCTS,               ORDERS, USERS
+
+product_id, product   order_id, order
  */
