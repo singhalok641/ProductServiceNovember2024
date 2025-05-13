@@ -5,6 +5,7 @@ import com.ecommerce.productservicenovember2024.models.Category;
 import com.ecommerce.productservicenovember2024.models.Product;
 import com.ecommerce.productservicenovember2024.repositories.CategoryRepository;
 import com.ecommerce.productservicenovember2024.repositories.ProductRepository;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 
 @Service("dbProductService")
+@Primary
 public class DbProductService implements ProductService{
     ProductRepository productRepository;
     CategoryRepository categoryRepository;

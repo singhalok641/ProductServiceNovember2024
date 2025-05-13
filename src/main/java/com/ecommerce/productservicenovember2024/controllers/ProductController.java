@@ -20,14 +20,16 @@ public class ProductController {
     ProductService productService;
 
     // TODO See how you can provide variable name and use configuration file to add the Qualifier
-    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
+        Product product = productService.getSingleProduct(id);
+
         ResponseEntity<Product> responseEntity = new ResponseEntity<>(
-                productService.getSingleProduct(id),
+                product,
                 HttpStatus.OK
         );
 
