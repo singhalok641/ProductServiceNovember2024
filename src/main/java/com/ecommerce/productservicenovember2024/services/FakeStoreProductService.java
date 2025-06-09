@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service("fakeStoreProductService")
+@Primary
 public class FakeStoreProductService implements ProductService{
     RestTemplate restTemplate;
     RedisTemplate<String, Object> redisTemplate;
@@ -33,29 +34,33 @@ public class FakeStoreProductService implements ProductService{
     @Override
     public Product getSingleProduct(Long productId) throws ProductNotFoundException {
 
+        restTemplate.getForObject("http://USERSERVICEMAY25/users/sample",
+                Void.class);
+
         // Try to fetch the product from my redis db
-        Product product = (Product) redisTemplate.opsForHash().get("PRODUCTS", "PRODUCT_" + productId);
-
-        if(product != null){
-            // Cache HIT
-            return product;
-        }
-
-        // Cache MISS
-        FakeStoreProductDto fakeStoreProductDto =
-                restTemplate.getForObject("https://fakestoreapi.com/products/" + productId,
-                FakeStoreProductDto.class);
-
-        if(fakeStoreProductDto == null) {
-            throw new ProductNotFoundException("Product with id "
-                    + productId + " does not exist");
-        }
-
-        product = convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
-
-        redisTemplate.opsForHash().put("PRODUCTS", "PRODUCT_" + productId, product);
-
-        return product;
+//        Product product = (Product) redisTemplate.opsForHash().get("PRODUCTS", "PRODUCT_" + productId);
+//
+//        if(product != null){
+//            // Cache HIT
+//            return product;
+//        }
+//
+//        // Cache MISS
+//        FakeStoreProductDto fakeStoreProductDto =
+//                restTemplate.getForObject("https://fakestoreapi.com/products/" + productId,
+//                FakeStoreProductDto.class);
+//
+//        if(fakeStoreProductDto == null) {
+//            throw new ProductNotFoundException("Product with id "
+//                    + productId + " does not exist");
+//        }
+//
+//        product = convertFakeStoreProductDtoToProduct(fakeStoreProductDto);
+//
+//        redisTemplate.opsForHash().put("PRODUCTS", "PRODUCT_" + productId, product);
+//
+//        return product;
+        return null;
     }
 
     @Override

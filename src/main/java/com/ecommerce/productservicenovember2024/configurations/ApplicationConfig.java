@@ -8,6 +8,7 @@ bean definitions and configuration for the application context
  */
 
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -17,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class ApplicationConfig {
     @Bean // Denotes that this method is a bean producer
+    @LoadBalanced
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
     }

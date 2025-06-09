@@ -17,7 +17,6 @@ import java.util.Optional;
 
 
 @Service("dbProductService")
-@Primary
 public class DbProductService implements ProductService{
     ProductRepository productRepository;
     CategoryRepository categoryRepository;
